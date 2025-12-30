@@ -1,8 +1,9 @@
 services:
   # BACKEND: Express server connecting to remote Supabase
   backend:
-    build: ./backend
+    build: ./Backend
     container_name: ai-agent-backend
+    command: npm run dev
     ports:
       - "4000:4000"
     environment:
@@ -14,13 +15,14 @@ services:
       - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
       - CORS_ORIGINS=http://localhost:3000,https://ai-ojz.com,https://www.ai-ojz.com
     volumes:
-      - ./backend:/app
+      - ./Backend:/app
       - /app/node_modules
 
   # FRONTEND: Next.js app
   frontend:
-    build: ./frontend
+    build: ./Frontend
     container_name: ai-agent-frontend
+    command: npm run dev
     ports:
       - "3000:3000"
     environment:
@@ -28,5 +30,5 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./frontend:/app
+      - ./Frontend:/app
       - /app/node_modules

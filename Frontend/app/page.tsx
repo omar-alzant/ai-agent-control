@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { ChatInterface } from "./components/ChatInterface";
 import { useSocketMetrics } from "./hooks/useSocketMetrics";
 import { MetricsDashboard } from "./components/MetricsDashboard";
@@ -11,15 +11,16 @@ import { useAuth } from "./context/AuthContext";
 import { notFound } from "next/navigation";
 
 
-export default function AgentChatPage() {
-  const params = useParams();
+export default function AgentChatPage({ params }: { params: Promise<{ agentId: string }> }) {
   const router = useRouter();
   const { user, loading } = useAuth();
   
-  const agentId = params.agentId as string;
-  if (!agentId) {
-    notFound(); // This will trigger the app/not-found.tsx page
-  }
+  const resolvedParams = use(params); // Unwraps the promise
+  const agentId = resolvedParams.agentId;  
+  
+  // if (!agentId) {
+  //   notFound();
+  // }
   // Pass agentId to the hook so it joins the specific Socket.io room
   const { metrics, isLive } = useSocketMetrics(agentId);
 

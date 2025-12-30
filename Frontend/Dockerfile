@@ -7,7 +7,7 @@ WORKDIR /app
 # 3. Copy package files first to speed up builds (caching)
 COPY package*.json ./
 
-# 4. Install dependencies
+# 4. Install dependenciess
 RUN npm install --legacy-depth-apear
 
 # 5. Copy the rest of the frontend code

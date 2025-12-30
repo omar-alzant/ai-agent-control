@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Environment variables (CRITICAL: Do not push these)
+.env
+.env.local
+backend/.env
+frontend/.env
+
+# Docker logs
+*.log

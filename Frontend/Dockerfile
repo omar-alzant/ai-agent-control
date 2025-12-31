@@ -2,7 +2,7 @@
 FROM node:20-slim
 
 # 2. Set the working directory inside the container
-WORKDIR /app
+WORKDIR /Frontend
 
 # 3. Copy package files first to speed up builds (caching)
 COPY package*.json ./

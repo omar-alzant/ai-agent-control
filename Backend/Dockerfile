@@ -1,6 +1,6 @@
 FROM node:20-slim
 
-WORKDIR /app
+WORKDIR /Backend
 
 # Install dependencies first (for caching)
 COPY package*.json ./

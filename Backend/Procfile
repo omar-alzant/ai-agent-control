@@ -1,1 +1,1 @@
-web: npx ts-node server.ts
+web: cd Backend && npx ts-node server.ts

@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Install dependencies first (for caching)
 COPY package*.json ./
-RUN npm install --legacy-depth-apear
+RUN npm install --legacy-peer-deps
 
 # Copy the rest of the code
 COPY . .

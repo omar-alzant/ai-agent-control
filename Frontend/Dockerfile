@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # 4. Install dependenciess
-RUN npm install --legacy-depth-apear
+RUN npm install --legacy-peer-deps
 
 # 5. Copy the rest of the frontend code
 COPY . .

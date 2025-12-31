@@ -2,6 +2,16 @@
 
 <img src="./img/DirPath.png" />
 
+
+<h2 style="display:flex; justifyContent: center; alignContent: center"> 
+    >>>
+    <a href="https://ai-ojz.com"> 
+        DEMO 
+    </a>
+    <<<
+</h2>
+
+
 ## Architecture Overview
 This project follows a decoupled Full-Stack Architecture designed for high availability and low-latency updates.
 <ul>
@@ -50,6 +60,11 @@ Follow these steps to run the entire stack locally using Docker.
         <strong>
             Supabase setting up:
         </strong>
+        <p>
+            <small style="background: #ffdd8e; padding: 5px; border-radius: 5px">
+            We use  this method instead of prisma cli, because this is more fast, and have lower setup.
+            </small>
+        </p>
         <p> 
             In your supabase website,
             New Organization >> New project >> go to sql Editor tab >> (Copy the SQL From DB Folder) then Past it in the supabase sql editor... now you have our tables.
@@ -74,5 +89,117 @@ Follow these steps to run the entire stack locally using Docker.
             Copy the both keys :
             <img src="./img/Supabase_helper.png"/>
         </i>
+        <hr />
+        <i> To Get the open ai api key: (used in our project) </i>
+            <p>
+                <a href="https://platform.openai.com/api-keys">
+                Go to
+            </a>
+            </p>
+            <img src="./img/OpenAi_api_key.png" />
+    </li>
+    <li>
+        <strong>
+            Run with Docker:
+        </strong>
+        <p>
+            From the root folder, execute:
+            <p>
+                <code >
+                    docker compose up --build
+                </code>
+            </p>
+            <p> 
+                <strong>Frontend:</strong>
+                <a href="http://localhost:3000">
+                http://localhost:3000
+                </a>
+            </p>
+            <p> 
+                <strong>Backtend:</strong>
+                <a href="http://localhost:4000">
+                http://localhost:4000
+                </a>
+            </p>
+        </p>
     </li>
 </ol>
+
+## API Documentation
+The backend expose the following RESTful endpoints:
+
+### SERVER:
+<p>
+Contains all the routes (auth/ chat/ agents / stats / message), and the socket in listner on httpserver, and the CORS setup. 
+</p>
+
+<hr />
+
+### SOCKET:
+<p>
+    Contains the setup of socket on (connection - join_room - leave_room - disconnect) 
+</p>
+
+<hr/>
+
+### SUPABASE
+<p>
+Contains the configurations of supabase.
+</p>
+
+<hr/>
+
+### MIDDLWARE: - Auth -
+
+<p>
+    Protect out API.
+</p>
+
+<hr />
+
+### AGENTS:
+
+| Endpoint | Method | Desription |
+| --- | --- | ---|
+|/api/agents | GET | get all agents for logged in user|
+|/api/agents | POST | insert new agent under user id, max agents = 5|
+|/api/agents/:id | PATCH | update exist agent|
+|/api/agents/:id/restore | PATCH | restore an archived agent |
+|/api/agents/archived| GET | get the archived agents for the logged in user |
+|/api/agents/:id | DELETE | delete permanently an agent under user id and agent id -not allowed for all users|
+
+<hr />
+
+### CHATS:
+
+| Endpoint | Method | Desription |
+| --- | --- | ---|
+|/api/chat | POST | here we post many data: insert into conversations tabel, the message table (contains the role), get response from openai, emit real time metric, save the openai response into the message table with role = assistant.|
+
+<hr />
+
+### MESSAGES:
+
+| Endpoint | Method | Desription |
+| --- | --- | ---|
+|/api/message/:agentId | GET | get the messages based on agent id and user id.| 
+
+<hr />
+
+### STATS:
+
+| Endpoint | Method | Desription |
+| --- | --- | ---|
+|/api/stats/my-tokens | GET | get only the total tokens for the role = assistant.|
+
+<hr />
+
+### AUTH: Supabase
+| Endpoint | Method | Desription |
+| --- | --- | ---|
+| /api/auth/forgot-password | POST | reset password for email using supabase -redirect to reset password-|
+| /api/auth/reset-password | POST | update password for email, update user from supabase. |
+|/api/auth/signup | POST | signup new user using supabase confirmation then insert it into  user table|
+|/api/auth/login | POST | login using supabase, then get token with 24 hours as expired time.|
+
+

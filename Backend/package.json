@@ -4,8 +4,9 @@
   "description": "Backend for ai-agent-control-center",
   "main": "server.ts",
   "scripts": {
-    "start": "node dist/server.js",
-    "dev": "npx tsx watch server.ts"
+"build": "tsc",
+  "start": "node dist/server.js",
+  "dev": "tsx watch server.ts"
   },
   "keywords": [
     ""

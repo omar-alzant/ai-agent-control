@@ -68,7 +68,7 @@ export default function AgentChatPage({ params }: { params: Promise<{ agentId: s
               <div className="flex items-center gap-2">
                  <div className={`h-2 w-2 rounded-full ${isLive ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
                  <span className="text-xs text-zinc-300">
-                    {isLive ? `Room: ${agentId.slice(0, 8)}...` : 'Connecting...'}
+                    {isLive ? `Room: ${agentId?.slice(0, 8)}...` : 'Connecting...'}
                  </span>
               </div>
           </div>

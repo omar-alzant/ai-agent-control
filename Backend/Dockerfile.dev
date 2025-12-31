@@ -1,0 +1,15 @@
+FROM node:20-slim
+
+WORKDIR /Backend
+
+# Install deps first (cached)
+COPY Backend/package*.json ./
+RUN npm install --legacy-peer-deps
+
+# Copy source (will be overridden by volume)
+COPY Backend/. .
+
+EXPOSE 4000
+
+# Dev mode: run TS directly
+CMD ["npm", "run", "dev"]

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { OpenAI } from 'openai';
-import { supabaseAdmin } from '../supabase.js';
+import { supabaseAdmin } from '../supabase.ts';
 import { protect } from '../middleware/auth.ts';
 
 const router = Router();

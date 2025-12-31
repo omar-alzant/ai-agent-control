@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { supabaseAdmin } from '../supabase.js';
+import { supabaseAdmin } from '../supabase.ts';
 import { protect } from '../middleware/auth.ts'; // Import your new middleware
 
 const router = Router();

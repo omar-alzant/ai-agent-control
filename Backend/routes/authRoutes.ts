@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAuthenticatedSupabaseClient, supabaseAdmin } from '../supabase.js';
+import { getAuthenticatedSupabaseClient, supabaseAdmin } from '../supabase.ts';
 import { protect } from '../middleware/auth.ts';
 import jwt from  'jsonwebtoken';
 
@@ -85,7 +85,7 @@ router.post('/login', async (req, res) => {
         id: loginData.user.id, 
         email, 
       }, 
-      process.env.JWT_SECRET, 
+      process.env.JWT_SECRET || "", 
       { expiresIn: '24h' }
     );
 
@@ -106,9 +106,9 @@ router.post('/login', async (req, res) => {
       permissionToDelete: user.permissionToDelete,
     } 
   });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (err: any) {
+    res.status(500).json({ error: err?.message || 'Internal server error' });
   }
-  });
+});
 
 export default router; 

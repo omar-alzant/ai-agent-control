@@ -9,4 +9,4 @@ COPY Backend/. .
 RUN npm run build
 
 EXPOSE 4000
-CMD ["npx", "tsx", "server.ts"]
+CMD ["node", "dist/server.js"]

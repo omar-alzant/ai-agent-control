@@ -3,13 +3,13 @@
 <img src="./img/DirPath.png" />
 
 
-<h2 style="display:flex; justifyContent: center; alignContent: center"> 
+<!-- <h2 style="display:flex; justifyContent: center; alignContent: center"> 
     >>>
     <a href="https://ai-ojz.com"> 
         DEMO 
     </a>
     <<<
-</h2>
+</h2> -->
 
 
 ## Architecture Overview

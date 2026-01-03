@@ -92,9 +92,16 @@ export const api = {
     if (!res.ok) return []; 
     return res.json();
   },
+  sendMessageStream(agentId: string, message: string) {
+    return fetch(`${BASE_URL}/api/chat`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ agentId, message }),
+    });
+  },
   
-  async sendMessage(agentId: string, message: string) {
-    const res = await fetch(`${BASE_URL}/api/chat`, {
+  async sendMessageResponseWhenComplete(agentId: string, message: string) {
+    const res = await fetch(`${BASE_URL}/api/chat/whenComplete`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify({ agentId, message }),
@@ -102,6 +109,16 @@ export const api = {
     if (!res.ok) throw new Error("Failed to send message");
     return res.json();
   },
+  
+  // async sendMessage(agentId: string, message: string) {
+  //   const res = await fetch(`${BASE_URL}/api/chat`, {
+  //     method: "POST",
+  //     headers: getAuthHeaders(),
+  //     body: JSON.stringify({ agentId, message }),
+  //   });
+  //   if (!res.ok) throw new Error("Failed to send message");
+  //   return res.json();
+  // },
 
   async signup(email: string, password: string, name: string) {
     const res = await fetch(`${BASE_URL}/api/auth/signup`, {

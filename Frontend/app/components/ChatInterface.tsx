@@ -22,8 +22,10 @@ export function ChatInterface({ agentId }: { agentId: string }) {
         setIsLoading(false);
       }
     };
+  
     loadHistory();
   }, [agentId]);
+  
 
   // 2. Auto-scroll to bottom
   useEffect(() => {
@@ -36,7 +38,7 @@ export function ChatInterface({ agentId }: { agentId: string }) {
   }, [messages, isTyping]);
 
   // 3. Handle Message Sending
-  const handleSend = async () => {
+  const handleSendWhenComplete = async () => {
     if (!input.trim() || isTyping) return;
 
     const userMsg = { role: 'user', content: input };
@@ -47,7 +49,7 @@ export function ChatInterface({ agentId }: { agentId: string }) {
 
     try {
       // Sends to protected backend route /api/chat
-      const data = await api.sendMessage(agentId, currentInput);
+      const data = await api.sendMessageResponseWhenComplete(agentId, currentInput);
       setMessages(prev => [...prev, { role: 'assistant', content: data.content }]);
     } catch (err) {
       console.error("Error sending message:", err);
@@ -56,6 +58,52 @@ export function ChatInterface({ agentId }: { agentId: string }) {
       setIsTyping(false);
     }
   };
+
+  const handleSend = async () => {
+    if (!input.trim() || isTyping) return;
+  
+    const userMsg = { role: 'user', content: input };
+    setMessages(prev => [...prev, userMsg]);
+  
+    setInput('');
+    setIsTyping(true);
+  
+    // placeholder assistant message
+    let assistantIndex: number;
+  
+    setMessages(prev => {
+      assistantIndex = prev.length;
+      return [...prev, { role: 'assistant', content: "" }];
+    });
+  
+    const res = await api.sendMessageStream(agentId, userMsg.content);
+  
+    const reader = res.body!.getReader();
+    const decoder = new TextDecoder();
+  
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+  
+      const chunk = decoder.decode(value);
+      const lines = chunk.split("\n");
+  
+      for (const line of lines) {
+        if (line.startsWith("data: ")) {
+          const token = line.replace("data: ", "");
+  
+          setMessages(prev => {
+            const updated = [...prev];
+            updated[assistantIndex].content += token;
+            return updated;
+          });
+        }
+      }
+    }
+  
+    setIsTyping(false);
+  };
+  
 
   if (isLoading) return <div className="flex-1 flex items-center justify-center text-zinc-500 italic">Loading encrypted session...</div>;
 
